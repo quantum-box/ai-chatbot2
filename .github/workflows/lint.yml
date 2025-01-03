@@ -15,12 +15,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - name: Enable Corepack and Yarn
+    - name: Enable Corepack
       run: |
         corepack enable
         corepack prepare yarn@4.6.0 --activate
-        yarn set version 4.6.0
     - name: Install dependencies
-      run: yarn install
+      run: |
+        yarn set version 4.6.0
+        yarn install --immutable
     - name: Run lint
       run: yarn lint
