@@ -1,57 +1,57 @@
 import type { InferSelectModel } from 'drizzle-orm';
 import {
-  pgTable,
+  mysqlTable,
   varchar,
   timestamp,
   json,
-  uuid,
+  char,
   text,
   primaryKey,
   foreignKey,
   boolean,
-} from 'drizzle-orm/pg-core';
+} from 'drizzle-orm/mysql-core';
 
-export const user = pgTable('User', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
+export const user = mysqlTable('User', {
+  id: char('id', { length: 36 }).primaryKey().notNull(),
   email: varchar('email', { length: 64 }).notNull(),
   password: varchar('password', { length: 64 }),
 });
 
 export type User = InferSelectModel<typeof user>;
 
-export const chat = pgTable('Chat', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
+export const chat = mysqlTable('Chat', {
+  id: char('id', { length: 36 }).primaryKey().notNull(),
   createdAt: timestamp('createdAt').notNull(),
   title: text('title').notNull(),
-  userId: uuid('userId')
+  userId: char('userId', { length: 36 })
     .notNull()
     .references(() => user.id),
-  visibility: varchar('visibility', { enum: ['public', 'private'] })
+  visibility: varchar('visibility', { length: 7 })
     .notNull()
     .default('private'),
 });
 
 export type Chat = InferSelectModel<typeof chat>;
 
-export const message = pgTable('Message', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
-  chatId: uuid('chatId')
+export const message = mysqlTable('Message', {
+  id: char('id', { length: 36 }).primaryKey().notNull(),
+  chatId: char('chatId', { length: 36 })
     .notNull()
     .references(() => chat.id),
-  role: varchar('role').notNull(),
+  role: varchar('role', { length: 10 }).notNull(),
   content: json('content').notNull(),
   createdAt: timestamp('createdAt').notNull(),
 });
 
 export type Message = InferSelectModel<typeof message>;
 
-export const vote = pgTable(
+export const vote = mysqlTable(
   'Vote',
   {
-    chatId: uuid('chatId')
+    chatId: char('chatId', { length: 36 })
       .notNull()
       .references(() => chat.id),
-    messageId: uuid('messageId')
+    messageId: char('messageId', { length: 36 })
       .notNull()
       .references(() => message.id),
     isUpvoted: boolean('isUpvoted').notNull(),
@@ -65,17 +65,17 @@ export const vote = pgTable(
 
 export type Vote = InferSelectModel<typeof vote>;
 
-export const document = pgTable(
+export const document = mysqlTable(
   'Document',
   {
-    id: uuid('id').notNull().defaultRandom(),
+    id: char('id', { length: 36 }).notNull(),
     createdAt: timestamp('createdAt').notNull(),
     title: text('title').notNull(),
     content: text('content'),
-    kind: varchar('text', { enum: ['text', 'code'] })
+    kind: varchar('text', { length: 4 })
       .notNull()
       .default('text'),
-    userId: uuid('userId')
+    userId: char('userId', { length: 36 })
       .notNull()
       .references(() => user.id),
   },
@@ -88,17 +88,17 @@ export const document = pgTable(
 
 export type Document = InferSelectModel<typeof document>;
 
-export const suggestion = pgTable(
+export const suggestion = mysqlTable(
   'Suggestion',
   {
-    id: uuid('id').notNull().defaultRandom(),
-    documentId: uuid('documentId').notNull(),
+    id: char('id', { length: 36 }).notNull(),
+    documentId: char('documentId', { length: 36 }).notNull(),
     documentCreatedAt: timestamp('documentCreatedAt').notNull(),
     originalText: text('originalText').notNull(),
     suggestedText: text('suggestedText').notNull(),
     description: text('description'),
     isResolved: boolean('isResolved').notNull().default(false),
-    userId: uuid('userId')
+    userId: char('userId', { length: 36 })
       .notNull()
       .references(() => user.id),
     createdAt: timestamp('createdAt').notNull(),
