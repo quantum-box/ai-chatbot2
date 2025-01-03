@@ -2,6 +2,7 @@ import 'server-only';
 
 import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { and, asc, desc, eq, gt, gte } from 'drizzle-orm';
+import crypto from 'crypto';
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
 
@@ -45,7 +46,11 @@ export async function createUser(email: string, password: string) {
   const hash = hashSync(password, salt);
 
   try {
-    return await db.insert(user).values({ email, password: hash });
+    return await db.insert(user).values({
+      id: crypto.randomUUID(),
+      email,
+      password: hash,
+    });
   } catch (error) {
     console.error('Failed to create user in database');
     throw error;
