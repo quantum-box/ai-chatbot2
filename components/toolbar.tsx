@@ -96,7 +96,7 @@ const Tool = ({
         append({
           role: 'user',
           content:
-            'Please add final polish and check for grammar, add section titles for better structure, and ensure everything reads smoothly.',
+            '文章を洗練させ、文法をチェックし、セクションタイトルを追加して構造を改善し、全体の読みやすさを確保してください。',
         });
 
         setSelectedTool(null);
@@ -104,21 +104,21 @@ const Tool = ({
         append({
           role: 'user',
           content:
-            'Please add suggestions you have that could improve the writing.',
+            '文章を改善するためのご提案をお願いします。',
         });
 
         setSelectedTool(null);
       } else if (type === 'add-comments') {
         append({
           role: 'user',
-          content: 'Please add comments to explain the code.',
+          content: 'コードを説明するためのコメントを追加してください。',
         });
 
         setSelectedTool(null);
       } else if (type === 'add-logs') {
         append({
           role: 'user',
-          content: 'Please add logs to help debug the code.',
+          content: 'デバッグに役立つログを追加してください。',
         });
 
         setSelectedTool(null);

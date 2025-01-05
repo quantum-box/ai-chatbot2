@@ -31,7 +31,7 @@ export function SubmitButton({
       )}
 
       <output aria-live="polite" className="sr-only">
-        {pending || isSuccessful ? 'Loading' : 'Submit form'}
+        {pending || isSuccessful ? '読み込み中' : 'フォームを送信'}
       </output>
     </Button>
   );

@@ -46,7 +46,7 @@ export function PureMessageActions({
               variant="outline"
               onClick={async () => {
                 await copyToClipboard(message.content as string);
-                toast.success('Copied to clipboard!');
+                toast.success('クリップボードにコピーしました！');
               }}
             >
               <CopyIcon />

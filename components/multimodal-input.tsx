@@ -155,7 +155,7 @@ function PureMultimodalInput({
       const { error } = await response.json();
       toast.error(error);
     } catch (error) {
-      toast.error('Failed to upload file, please try again!');
+      toast.error('ファイルのアップロードに失敗しました。もう一度お試しください！');
     }
   };
 
@@ -238,7 +238,7 @@ function PureMultimodalInput({
             event.preventDefault();
 
             if (isLoading) {
-              toast.error('Please wait for the model to finish its response!');
+              toast.error('モデルの応答が完了するまでお待ちください！');
             } else {
               submitForm();
             }
