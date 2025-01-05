@@ -157,7 +157,7 @@ export async function POST(request: Request) {
                 const { fullStream } = streamText({
                   model: customModel(model.apiIdentifier),
                   system:
-                    'Write about the given topic. Markdown is supported. Use headings wherever appropriate.',
+                    '与えられたトピックについて書いてください。Markdownが使用可能です。適切な箇所には見出しを使用してください。',
                   prompt: title,
                 });
 
@@ -353,19 +353,19 @@ export async function POST(request: Request) {
               const { elementStream } = streamObject({
                 model: customModel(model.apiIdentifier),
                 system:
-                  'You are a help writing assistant. Given a piece of writing, please offer suggestions to improve the piece of writing and describe the change. It is very important for the edits to contain full sentences instead of just words. Max 5 suggestions.',
+                  'あなたは文章作成を支援するアシスタントです。与えられた文章に対して、改善のための提案を行い、その変更点を説明してください。編集は単語だけでなく、必ず完全な文章で提案してください。最大5つまでの提案としてください。',
                 prompt: document.content,
                 output: 'array',
                 schema: z.object({
                   originalSentence: z
                     .string()
-                    .describe('The original sentence'),
+                    .describe('元の文章'),
                   suggestedSentence: z
                     .string()
-                    .describe('The suggested sentence'),
+                    .describe('提案された文章'),
                   description: z
                     .string()
-                    .describe('The description of the suggestion'),
+                    .describe('提案の説明'),
                 }),
               });
 
@@ -404,7 +404,7 @@ export async function POST(request: Request) {
                 id: documentId,
                 title: document.title,
                 kind: document.kind,
-                message: 'Suggestions have been added to the document',
+                message: 'ドキュメントに提案が追加されました',
               };
             },
           },
@@ -437,7 +437,7 @@ export async function POST(request: Request) {
                 ),
               });
             } catch (error) {
-              console.error('Failed to save chat');
+              console.error('チャットの保存に失敗しました');
             }
           }
         },
@@ -470,7 +470,7 @@ export async function DELETE(request: Request) {
     const chat = await getChatById({ id });
 
     if (chat.userId !== session.user.id) {
-      return new Response('Unauthorized', { status: 401 });
+      return new Response('権限がありません', { status: 401 });
     }
 
     await deleteChatById({ id });
