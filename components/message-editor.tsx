@@ -77,7 +77,7 @@ export function MessageEditor({
             const messageId = userMessageIdFromServer ?? message.id;
 
             if (!messageId) {
-              toast.error('Something went wrong, please try again!');
+              toast.error('エラーが発生しました。もう一度お試しください！');
               setIsSubmitting(false);
               return;
             }
