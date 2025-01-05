@@ -234,7 +234,7 @@ function PureMultimodalInput({
         rows={2}
         autoFocus
         onKeyDown={(event) => {
-          if (event.key === 'Enter' && !event.shiftKey) {
+          if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
             event.preventDefault();
 
             if (isLoading) {
